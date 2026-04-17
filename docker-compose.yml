@@ -1,0 +1,26 @@
+services:
+  streamio-ncore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: streamio-ncore
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - APP_URL=${APP_URL:-http://localhost:3000}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000} # 64-character hex
+      - SESSION_SECRET=${SESSION_SECRET:-replace_this_with_a_secret_that_is_at_least_32_characters_long}
+      - PORT=3000
+      - ADDON_DIR=/data
+      - DOWNLOADS_DIR=/downloads
+      - TORRENT_IDLE_TIMEOUT_MS=600000
+      - NCORE_URL=https://ncore.pro
+    volumes:
+      - streamio_data:/data
+      - streamio_downloads:/downloads
+
+volumes:
+  streamio_data:
+  streamio_downloads:
